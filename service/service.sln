@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrawebService", "DrawebService\DrawebService.csproj", "{744B0140-4894-49DE-A370-0D5047E37D0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrawebData", "DrawebData\DrawebData.csproj", "{727CE44D-B627-48E7-AFD5-03DB7CC2581B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrawebTest", "DrawebTest\DrawebTest.csproj", "{75D4B87F-1890-4195-96F2-EA30FE1CEC61}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{744B0140-4894-49DE-A370-0D5047E37D0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{744B0140-4894-49DE-A370-0D5047E37D0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{744B0140-4894-49DE-A370-0D5047E37D0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{744B0140-4894-49DE-A370-0D5047E37D0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{727CE44D-B627-48E7-AFD5-03DB7CC2581B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{727CE44D-B627-48E7-AFD5-03DB7CC2581B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{727CE44D-B627-48E7-AFD5-03DB7CC2581B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{727CE44D-B627-48E7-AFD5-03DB7CC2581B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75D4B87F-1890-4195-96F2-EA30FE1CEC61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75D4B87F-1890-4195-96F2-EA30FE1CEC61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75D4B87F-1890-4195-96F2-EA30FE1CEC61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75D4B87F-1890-4195-96F2-EA30FE1CEC61}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
