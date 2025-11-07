@@ -1,10 +1,10 @@
-<img src="draweb-logo.png" alt="draweb logo" width="200"/>
-
-# Draweb
-Web applications for vector drawing built without CSS Frameworks.
-
-## Features
-
+<header style="display: flex;align-items: center;width:50%;">
+    <div style="margin-right: 30px;">
+        <h1>DRAWEB</h1>
+        <p>Draweb is a web application for vector drawing built without CSS Frameworks, JavaScript Libraries or any other Frontend Framework.</p>
+    </div>
+    <img src="draweb-logo.png" alt="draweb logo" style="height: 180pt;border-radius: 10px;">
+</header>
 
 ## Usage
 1. Run the SQL script `draweb.sql` to create the database and tables.
