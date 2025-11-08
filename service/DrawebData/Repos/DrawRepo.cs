@@ -1,6 +1,7 @@
 namespace DrawebData.Repos;
 
 using DrawebData.Models;
+using DrawebData.TransferObjects;
 using Microsoft.EntityFrameworkCore;
 
 public class DrawRepo(DrawebDbContext context) : IDrawRepo
@@ -29,9 +30,9 @@ public class DrawRepo(DrawebDbContext context) : IDrawRepo
         }; 
     }
 
-    public async Task<Result<List<Draw>>> GetDrawsByUserIdWithPagination(int userId, DateTime lastDrawUpdateDate, int pageSize)
+    public async Task<Result<List<DrawDTO>>> GetDrawsByUserIdWithPagination(int userId, DateTime lastDrawUpdateDate, int pageSize)
     {
-        List<Draw> draws = [];
+        List<DrawDTO> draws = [];
 
         var user = await _context.Users
             .Include(u => u.Draws)
@@ -39,11 +40,7 @@ public class DrawRepo(DrawebDbContext context) : IDrawRepo
 
         if (user == null)
         {
-            return new Result<List<Draw>>
-            {
-                Message = $"User not found, with id: {userId}",
-                IsSuccess = false
-            };
+            return new Result<List<DrawDTO>>{ Message = $"User not found, with id: {userId}" };
         }
         else
         {
@@ -51,56 +48,77 @@ public class DrawRepo(DrawebDbContext context) : IDrawRepo
                 .OrderBy(d => d.LastUpdate)
                 .Where(d => d.LastUpdate > lastDrawUpdateDate)
                 .Take(pageSize)
-                .ToList();
-        }
+                .ToList()
+                .ConvertAll(new Converter<Draw, DrawDTO>(
+                    (draw) =>
+                        new()
+                        {
+                            DrawId = draw.DrawId,
+                            UserId = draw.UserId,
+                            Title = draw.Title,
+                            CreationDate = (DateTime)draw.CreationDate!,
+                            Url = draw.Url,
+                            LastUpdate = (DateTime)draw.LastUpdate!,
+                        }
+                ));
 
-        return new Result<List<Draw>>
-        {
-            Data = draws,
-            IsSuccess = true,
-            Message = $"Draws from user id: {userId} retrieved with starting date: {lastDrawUpdateDate}"
-        };
+                return new Result<List<DrawDTO>>
+                {
+                    Data = draws,
+                    IsSuccess = true,
+                    Message = $"Draws from user id: {userId} retrieved with starting date: {lastDrawUpdateDate}"
+                };
+        }
     }
 
     //TODO: it might need to store the file too.
-    public async Task<Result<Draw>> SaveDraw(int userId, string title, string fileUrl)
+    public async Task<Result<DrawDTO>> SaveDraw(int userId, string title, string fileUrl)
     {
-        Draw newDraw = new()
-        {
-            //UserId = userId,
-            Title = title,
-            Url = fileUrl
-        };
-        int rowsAffected = 0;
-
         var user = await _context.Users
             .FirstOrDefaultAsync(u => u.UserId == userId);
 
         if (user != null)
         {
-            user.Draws.Add(newDraw);
-            rowsAffected = _context.SaveChanges();
-        }        
-
-        if (rowsAffected != 1)
-        {
-            return new Result<Draw>()
+            Draw newDraw = new()
             {
-                Message = $"Failed draw creation of user {userId} with draw location at {fileUrl}"
+                Title = title,
+                Url = fileUrl
             };
-        }
+            user.Draws.Add(newDraw);
+            int rowsAffected = _context.SaveChanges();
 
-        return new Result<Draw>()
+            if (rowsAffected != 1)
+            {
+                return new Result<DrawDTO>() { Message = $"Failed draw creation of user {userId} with draw location at {fileUrl}" };
+            }
+            else
+            {
+                return new Result<DrawDTO>()
+                {
+                    Data = new()
+                    {
+                        DrawId = newDraw.DrawId,
+                        UserId = newDraw.UserId,
+                        Title = newDraw.Title,
+                        CreationDate = (DateTime)newDraw.CreationDate!,
+                        Url = newDraw.Url,
+                        LastUpdate = (DateTime)newDraw.LastUpdate!
+                    },
+                    IsSuccess = true,
+                    Message = $"User with Id {userId} added a new Draw at {fileUrl}"
+                };
+            }
+        }
+        else
         {
-            Data = newDraw,
-            IsSuccess = true,
-            Message = $"User with Id {userId} added a new Draw at {fileUrl}"
-        };
+            return new() { Message = $"Failed draw creation of non-existent user with ID: {userId}" };
+        }
     }
 
-    public async Task<Result<bool>> UpdateDraw(int drawId, string? title)
+    public async Task<Result<DrawDTO>> UpdateDraw(int drawId, string? title)
     {
-        var draw = await _context.Draws.FirstOrDefaultAsync(d => d.DrawId == drawId);
+        var draw = await _context.Draws
+            .FirstOrDefaultAsync(d => d.DrawId == drawId);
         bool drawExists = draw != null;
 
         if (drawExists)
@@ -114,9 +132,17 @@ public class DrawRepo(DrawebDbContext context) : IDrawRepo
             await _context.SaveChangesAsync();
         }
 
-        return new Result<bool>
+        return new Result<DrawDTO>
         {
-            Data = drawExists,
+            Data = drawExists ? new()
+            {
+                DrawId = draw!.DrawId,
+                UserId = draw.UserId,
+                Title = draw.Title,
+                CreationDate = (DateTime)draw.CreationDate!,
+                Url = draw.Url,
+                LastUpdate = (DateTime)draw.LastUpdate!
+            } : null,
             IsSuccess = drawExists,
             Message = drawExists ? $"Draw updated with id: {drawId}" : $"Failed updating to non-existent draw with id: {drawId}"
         };

@@ -20,7 +20,7 @@ public class DrawRepoTest : IClassFixture<TestDatabaseFixture>
 
         Assert.True(result.IsSuccess);
         Assert.NotNull(result.Data);
-        Assert.True(result.Data.Count > 0, $"{result.Data.Count} != {TestDataSet.UserDraws.Count}");
+        Assert.True(result.Data.Count > 0 && result.Data.Count < 4, $"{result.Data.Count} != {TestDataSet.UserDraws.Count}");
     }
 
     [Fact]
@@ -108,7 +108,7 @@ public class DrawRepoTest : IClassFixture<TestDatabaseFixture>
         DateTime? newUpdateTime = updatedUserDraws.Data!.First(d => d.DrawId == drawId).LastUpdate;
 
         Assert.True(result.IsSuccess);
-        Assert.True(result.Data);
+        Assert.NotNull(result.Data);
         Assert.Equal(updatedUserDraws.Data!.First(d => d.DrawId == drawId).Title, title);
         Assert.True(previousUpdateTime!.Value.CompareTo(newUpdateTime!.Value) < 0, $"Previous = {previousUpdateTime.Value}, Now = {newUpdateTime.Value}");
     }
@@ -123,6 +123,6 @@ public class DrawRepoTest : IClassFixture<TestDatabaseFixture>
         var result = await repository.UpdateDraw(drawId, title);
 
         Assert.False(result.IsSuccess);
-        Assert.False(result.Data);
+        Assert.Null(result.Data);
     }
 }

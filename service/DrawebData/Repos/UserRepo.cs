@@ -1,57 +1,60 @@
 namespace DrawebData.Repos;
 
 using DrawebData.Models;
+using DrawebData.TransferObjects;
 using Microsoft.EntityFrameworkCore;
 
 public class UserRepo(DrawebDbContext context) : IUserRepo
 {
     private readonly DrawebDbContext _context = context;
 
-    public async Task<Result<User>> CreateUser(string username, string email, string password)
+    public async Task<Result<UserDTO>> CreateUser(string username, string email, string password)
     {
         int rowsAffected = 0;
-        User newUser = new()
-        {
-            Username = username,
-            Email = email,
-            Password = password
-        };
-        Result<User> result;
+        UserDTO insertedUser;
 
         bool userExists = await _context.Users.AnyAsync(u => u.Username == username || u.Email == email);
         if (!userExists)
         {
+            User newUser = new()
+            {
+                Username = username,
+                Email = email,
+                Password = password
+            };
             await _context.Users.AddAsync(newUser);
             rowsAffected = await _context.SaveChangesAsync();
-        }
-
-        if (userExists)
-        {
-            result = new Result<User>
+            insertedUser = new()
             {
-                IsSuccess = false,
-                Message = "Username or email already exists."
-            };
-        }
-        else if (rowsAffected == 1)
-        {
-            result = new Result<User>
-            {
-                Data = newUser,
-                IsSuccess = true,
-                Message = $"User {newUser.Username} created"
+                Id = newUser.UserId,
+                Username = newUser.Username,
+                Email = newUser.Email,
             };
         }
         else
         {
-            result = new Result<User>
+            return new Result<UserDTO>
             {
-                IsSuccess = false,
-                Message = "Failed to create user."
+                Message = "Username or email already exists."
             };
         }
-        
-        return result;
+
+        if (rowsAffected == 1)
+        {
+            return new Result<UserDTO>
+            {
+                Data = insertedUser,
+                IsSuccess = true,
+                Message = $"User {insertedUser.Username} created with ID {insertedUser.Id}"
+            };
+        }
+        else
+        {
+            return new Result<UserDTO>
+            {
+                Message = $"Failed to create user: {rowsAffected} rows affected."
+            };
+        }
     }
 
     public async Task<Result<bool>> Login(string username, string password)

@@ -8,5 +8,5 @@ public class Result<T>
     /// <summary>
     /// Indicates whether the operations was completed without errors.
     /// </summary>
-    public bool IsSuccess { get; set; }
+    public bool IsSuccess { get; set; } = false;
 }
