@@ -1,0 +1,23 @@
+$primary-color: #023047ff;
+$secondary-color: #219ebcff;
+$tertiary-color: #8ecae6ff;
+$primary-accent-color: #fb8500ff;
+$secondary-accent-color: #ffb703ff;
+$error-color: #d00000ff;
+
+$lite-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+$radius: 10px;
+@function get-colored-thin-border($color) {
+    @return 2pt solid $color;
+}
+
+$normal-text-font-size: 14pt;
+$low-text-font-size: 10pt;
+
+$global-font-family: 'Courier New', Courier, monospace;
+
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

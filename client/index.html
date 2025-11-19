@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Draweb</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/login-styles.css"/>
+    <link rel="stylesheet" href="styles/general-styles.css">
+    <script src="scripts/login.js" defer></script>
+</head>
+
+<body>
+    <section>
+        <div class="login-form">
+            <h1>Welcome to<br>Draweb</h1>
+            <form novalidate>
+                <div class="text-field">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" placeholder="Ej. User007" required/>
+                    <span class="error" aria-live="polite"></span>
+                </div>
+                <div class="text-field">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required/>
+                    <span class="error" aria-live="polite"></span>
+                </div>
+                <span class="error" aria-live="polite"></span>
+                <button class="primary-button">Log in</button>
+            </form>
+            <a href="sign-up.html" class="link">I don't have an account</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 DRAWEB. All rights reserved.</p>
+    </footer>
+</body>
+</html>
