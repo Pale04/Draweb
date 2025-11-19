@@ -60,7 +60,7 @@ public class UserRepoTest : IClassFixture<TestDatabaseFixture>
 
         var result = await repo.Login(username, password);
 
-        Assert.True(result.Data);
+        Assert.True(result.IsSuccess);
     }
 
     [Fact]
@@ -73,7 +73,7 @@ public class UserRepoTest : IClassFixture<TestDatabaseFixture>
 
         var result = await repo.Login(username, password);
 
-        Assert.False(result.Data);
+        Assert.False(result.IsSuccess);
     }
 }
 

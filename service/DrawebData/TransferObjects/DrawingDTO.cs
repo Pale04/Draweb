@@ -1,6 +1,6 @@
 namespace DrawebData.TransferObjects;
 
-public class DrawDTO
+public record class DrawingDTO
 {
     public int DrawId { get; set; }
     public int UserId { get; set; }

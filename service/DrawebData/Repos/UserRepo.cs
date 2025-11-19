@@ -2,6 +2,7 @@ namespace DrawebData.Repos;
 
 using DrawebData.Models;
 using DrawebData.TransferObjects;
+using DrawebData.Helpers;
 using Microsoft.EntityFrameworkCore;
 
 public class UserRepo(DrawebDbContext context) : IUserRepo
@@ -33,9 +34,9 @@ public class UserRepo(DrawebDbContext context) : IUserRepo
         }
         else
         {
-            return new Result<UserDTO>
-            {
-                Message = "Username or email already exists."
+            return new Result<UserDTO>{
+                Message = "Attempt of user registrations with existent username or email.",
+                ErrorType = ErrorType.UserAlreadyExists
             };
         }
 
@@ -50,22 +51,29 @@ public class UserRepo(DrawebDbContext context) : IUserRepo
         }
         else
         {
-            return new Result<UserDTO>
-            {
-                Message = $"Failed to create user: {rowsAffected} rows affected."
+            return new Result<UserDTO>{
+                Message = $"Failed to create user: {rowsAffected} rows affected.",
+                ErrorType = ErrorType.FailedOperationExecution
             };
         }
     }
 
-    public async Task<Result<bool>> Login(string username, string password)
+    public async Task<Result<UserDTO>> Login(string username, string password)
     {
-        bool correctLogin = await _context.Users.AnyAsync(u => u.Username == username && u.Password == password);
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username && u.Password == password);
 
-        Result<bool> result = new()
+        Result<UserDTO> result = new()
         {
-            Data = correctLogin,
-            IsSuccess = correctLogin,
-            Message = correctLogin ? $"Login successful of user: {username}." : $"Failed login with username: {username}."
+            Data = user == null 
+                ? null 
+                : new()
+                {
+                    Id = user.UserId,
+                    Username = user.Username,
+                    Email = user.Email
+                },
+            IsSuccess = user != null,
+            Message = user == null ? $"Failed login with username: {username}." : $"Login successful of user: {username}."
         };
 
         return result;

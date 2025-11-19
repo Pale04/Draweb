@@ -1,6 +1,6 @@
-namespace DrawebData.Repos;
+namespace DrawebData.Helpers;
 
-public class Result<T>
+public record class Result<T>
 {
     public T? Data { get; set; }
     public string Message { get; set; } = string.Empty;
@@ -9,4 +9,6 @@ public class Result<T>
     /// Indicates whether the operations was completed without errors.
     /// </summary>
     public bool IsSuccess { get; set; } = false;
+
+    public ErrorType ErrorType { get; set; } = ErrorType.None;
 }
