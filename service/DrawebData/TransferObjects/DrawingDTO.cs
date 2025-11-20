@@ -2,7 +2,7 @@ namespace DrawebData.TransferObjects;
 
 public record class DrawingDTO
 {
-    public int DrawId { get; set; }
+    public int DrawingId { get; set; }
     public int UserId { get; set; }
     public string Title { get; set; } = string.Empty;
     public DateTime CreationDate { get; set; }

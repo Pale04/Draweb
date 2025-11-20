@@ -6,7 +6,7 @@ using DrawebData.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 
-public class DrawRepo(DrawebDbContext context) : IDrawRepo
+public class DrawingRepo(DrawebDbContext context) : IDrawingRepo
 {
     private readonly DrawebDbContext _context = context;
     private readonly string _drawingsFolder = Path.Combine("../", "Drawings");
@@ -47,7 +47,7 @@ public class DrawRepo(DrawebDbContext context) : IDrawRepo
                 {
                     Data = new()
                     {
-                        DrawId = newDraw.DrawId,
+                        DrawingId = newDraw.DrawId,
                         UserId = newDraw.UserId,
                         Title = newDraw.Title,
                         CreationDate = (DateTime)newDraw.CreationDate!,
@@ -94,7 +94,7 @@ public class DrawRepo(DrawebDbContext context) : IDrawRepo
                     (draw) =>
                         new()
                         {
-                            DrawId = draw.DrawId,
+                            DrawingId = draw.DrawId,
                             UserId = draw.UserId,
                             Title = draw.Title,
                             CreationDate = (DateTime)draw.CreationDate!,
@@ -145,25 +145,33 @@ public class DrawRepo(DrawebDbContext context) : IDrawRepo
         };
     }
 
-    public async Task<Result<bool>> DeleteDraw(int drawId)
+    public async Task<Result<bool>> DeleteDrawing(int drawingId)
     {
-        bool deleted = false;
+        var drawing = await _context.Draws
+            .FirstOrDefaultAsync(d => d.DrawId == drawingId);
 
-        var draw = await _context.Draws
-            .FirstOrDefaultAsync(d => d.DrawId == drawId);
-
-        if (draw != null)
+        if (drawing is null)
         {
-            _context.Draws.Remove(draw);
-            await _context.SaveChangesAsync();
-            deleted = true;
+            return new()
+            {
+                Message = $"Attempted to delete a non-existent drawing with ID: {drawingId}",
+                ErrorType = ErrorType.ResourceDoesNotExist
+            };
         }
 
+        string filePath = Path.Combine(_drawingsFolder, drawing.Url);
+        if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+        }        
+
+        _context.Draws.Remove(drawing);
+        await _context.SaveChangesAsync();
         return new Result<bool>
         {
-            Data = deleted,
-            IsSuccess = deleted,
-            Message = deleted ? $"Draw deleted, with id: {drawId}" : $"Draw not found, with id: {drawId}"
+            Data = true,
+            IsSuccess = true,
+            Message = $"Deleted drawing with ID: {drawingId}"
         }; 
     }
 
@@ -188,7 +196,7 @@ public class DrawRepo(DrawebDbContext context) : IDrawRepo
         {
             Data = drawExists ? new()
             {
-                DrawId = draw!.DrawId,
+                DrawingId = draw!.DrawId,
                 UserId = draw.UserId,
                 Title = draw.Title,
                 CreationDate = (DateTime)draw.CreationDate!,

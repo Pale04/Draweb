@@ -60,9 +60,9 @@ For this reason, I decided to add an abstraction layer with interfaces, that all
 |----------|--------|-------------| -------------|---------------|
 | /draweb-api/users               | POST | Create a new user account | User (username, email, password) | User (id, username, email, password) |
 | /draweb-api/authenticate        | POST | Authenticate a user and return a token | User (username, password) | Token |
-| /draweb-api/users/{id}/drawings | POST | Save a new drawing |  |  |
-| /draweb-api/users/drawings/{id} | GET  | Retrieve a specific drawing by its ID |  |  |
-| /draweb-api/users/{id}/drawings | GET  | Retrieve all drawings of a user |  |  |
+| /draweb-api/users/{id}/drawings | POST | Save a new drawing | Drawing (title, svg) |  |
+| /draweb-api/users/drawings/{id} | GET  | Retrieve a specific drawing by its ID |  | Svg |
+| /draweb-api/users/{id}/drawings | GET  | Retrieve all drawings of a user |  | List of Drawing (drawingId, userId, title, creationDate, lastUpdate, url) |
 | /draweb-api/users/drawings/{id} | DELETE | Delete a specific drawing by its ID  |  |  |
 | /draweb-api/users/drawings/{id} | PATCH | Update a specific drawing by its ID |  |  |
 

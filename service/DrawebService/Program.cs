@@ -24,7 +24,7 @@ builder.Services
 builder.Services
     .AddScoped<IUserRepo, UserRepo>();
 builder.Services
-    .AddScoped<IDrawRepo, DrawRepo>();
+    .AddScoped<IDrawingRepo, DrawingRepo>();
 
 builder.Services
     .AddAuthentication(options =>
@@ -146,13 +146,14 @@ app.MapPost("/draweb-api/authenticate", async Task<Results<BadRequest<object>, O
             new(ClaimTypes.Role, "Member")
         ];
 
+        Console.WriteLine(configuration["Jwt:ExpirationInMinutes"]!);
         var tokenDescriptor = new SecurityTokenDescriptor()
         {
             Subject = new ClaimsIdentity(claims),
-            Expires = DateTime.UtcNow.AddMinutes(configuration.GetValue<int>(configuration["Jwt:ExpirationInMinutes"]!)),
             SigningCredentials = credentials,
             Issuer = configuration["Jwt:Issuer"],
-            Audience = configuration["Jwt:Audience"]
+            Audience = configuration["Jwt:Audience"],
+            Expires = DateTime.UtcNow.AddMinutes(double.Parse(configuration["Jwt:ExpirationInMinutes"] ?? "60"))
         };
 
         var tokenHandler = new JsonWebTokenHandler();
@@ -170,7 +171,7 @@ app.MapPost("/draweb-api/authenticate", async Task<Results<BadRequest<object>, O
 app.MapPost("/draweb-api/users/{id}/drawings", async Task<Results<Ok<DrawingDTO>, BadRequest<object>, NotFound, InternalServerError>> (
     int id, 
     Drawing drawing, 
-    IDrawRepo drawRepo, 
+    IDrawingRepo drawRepo, 
     ILogger<RouteHandler> logger) =>
 {
     if (string.IsNullOrWhiteSpace(drawing.Title) || string.IsNullOrWhiteSpace(drawing.Svg))
@@ -201,11 +202,12 @@ app.MapPost("/draweb-api/users/{id}/drawings", async Task<Results<Ok<DrawingDTO>
 
 app.MapGet("/draweb-api/users/drawings/{id}", async Task<Results<Ok<object>, NotFound, Conflict<object>, InternalServerError>>  (
     int id, 
-    IDrawRepo drawRepo, 
+    IDrawingRepo drawRepo, 
     ILogger<RouteHandler> logger) =>
 {
     if (id < 1)
     {
+        logger.LogWarning("Attempted to get a drawing with non-valid ID: {id}", id);
         return TypedResults.NotFound();
     }
 
@@ -237,7 +239,7 @@ app.MapGet("/draweb-api/users/{id}/drawings", async Task<Results<Ok<List<Drawing
     int id,
     int? size,
     DateTime? cursor,
-    IDrawRepo drawRepo, 
+    IDrawingRepo drawRepo, 
     ILogger<RouteHandler> logger) =>
 {
     if (size == null || size < 0)
@@ -266,13 +268,37 @@ app.MapGet("/draweb-api/users/{id}/drawings", async Task<Results<Ok<List<Drawing
 }).RequireAuthorization();
 
 
-app.MapDelete("/draweb-api/users/drawings/{id}", async (int id, IDrawRepo drawRepo, ILogger<RouteHandler> logger) =>
+app.MapDelete("/draweb-api/users/drawings/{id}", async Task<Results<Ok, NotFound, InternalServerError>> (
+    int id, 
+    IDrawingRepo drawingRepo, 
+    ILogger<RouteHandler> logger) =>
 {
-    //TODO
+    if (id < 1)
+    {
+        logger.LogWarning("Attempted to delete a drawing with non-valid ID: {id}", id);
+        return TypedResults.NotFound();
+    }
+
+    var result = await drawingRepo.DeleteDrawing(id);
+    if (result.IsSuccess)
+    {
+        logger.LogInformation(result.Message);
+        return TypedResults.Ok();
+    } 
+    else if (result.ErrorType == ErrorType.ResourceDoesNotExist) 
+    {
+        logger.LogWarning(result.Message);
+        return TypedResults.NotFound();
+    }
+    else
+    {
+        logger.LogWarning(result.Message);
+        return TypedResults.InternalServerError();
+    }
 }).RequireAuthorization();
 
 
-app.MapPatch("/draweb-api/users/drawings/{id}", async(int id, IDrawRepo drawRepo, ILogger<RouteHandler> logger) =>
+app.MapPatch("/draweb-api/users/drawings/{id}", async(int id, IDrawingRepo drawRepo, ILogger<RouteHandler> logger) =>
 {
     //TODO
 }).RequireAuthorization();
