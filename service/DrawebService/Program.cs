@@ -186,7 +186,7 @@ app.MapPost("/draweb-api/users/{id}/drawings", async Task<Results<Ok<DrawingDTO>
         logger.LogInformation(result.Message);
         return TypedResults.Ok(result.Data);
     }
-    else if (result.ErrorType == ErrorType.UserDoesNotExist)
+    else if (result.ErrorType == ErrorType.ResourceDoesNotExist)
     {
         logger.LogWarning(result.Message);
         return TypedResults.NotFound();
@@ -199,12 +199,37 @@ app.MapPost("/draweb-api/users/{id}/drawings", async Task<Results<Ok<DrawingDTO>
 }).RequireAuthorization();
 
 
-app.MapGet("/draweb-api/users/drawings/{id}", async  (
+app.MapGet("/draweb-api/users/drawings/{id}", async Task<Results<Ok<object>, NotFound, Conflict<object>, InternalServerError>>  (
     int id, 
-    IDrawRepo drawRep, 
+    IDrawRepo drawRepo, 
     ILogger<RouteHandler> logger) =>
 {
-    //TODO
+    if (id < 1)
+    {
+        return TypedResults.NotFound();
+    }
+
+    var result = await drawRepo.GetSvgDrawing(id);
+    if (result.IsSuccess)
+    {
+        logger.LogInformation(result.Message);
+        return TypedResults.Ok<object>(new { Svg = result.Data});
+    }
+    else if (result.ErrorType == ErrorType.ResourceDoesNotExist)
+    {
+        logger.LogWarning(result.Message);
+        return TypedResults.NotFound();
+    }
+    else if (result.ErrorType == ErrorType.FailedOperationExecution)
+    {
+        logger.LogWarning(result.Message);
+        return TypedResults.Conflict<object>(new{ Message = "The drawing is corrupted." });
+    }
+    else
+    {
+        logger.LogWarning(result.Message);
+        return TypedResults.InternalServerError();
+    }
 }).RequireAuthorization();
 
 
@@ -228,7 +253,7 @@ app.MapGet("/draweb-api/users/{id}/drawings", async Task<Results<Ok<List<Drawing
         logger.LogInformation(result.Message);
         return TypedResults.Ok(result.Data);
     }
-    else if(result.ErrorType == ErrorType.UserDoesNotExist)
+    else if(result.ErrorType == ErrorType.ResourceDoesNotExist)
     {
         logger.LogWarning(result.Message);
         return TypedResults.NotFound();
@@ -252,6 +277,7 @@ app.MapPatch("/draweb-api/users/drawings/{id}", async(int id, IDrawRepo drawRepo
     //TODO
 }).RequireAuthorization();
 
+
 app.UseCors("DevelopmentPolicy");
 
 app.UseAuthentication();
@@ -259,4 +285,4 @@ app.UseAuthorization();
 app.Run();
 
 public record User(string? Username, string? Email, string? Password);
-public record Drawing(string Title, string? Svg);
+public record Drawing(string? Title, string? Svg);

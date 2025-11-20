@@ -4,6 +4,6 @@ public enum ErrorType
 {
     None,
     UserAlreadyExists,
-    UserDoesNotExist,
+    ResourceDoesNotExist,
     FailedOperationExecution
 }

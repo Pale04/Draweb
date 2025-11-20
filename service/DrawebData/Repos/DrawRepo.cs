@@ -22,7 +22,7 @@ public class DrawRepo(DrawebDbContext context) : IDrawRepo
             {
                 Directory.CreateDirectory(_drawingsFolder);
             }
-            string fileName = $"{Guid.NewGuid()}.draw.json";
+            string fileName = $"{Guid.NewGuid()}.drawing.svg";
             string filePath = Path.Combine(_drawingsFolder, fileName);
             await File.WriteAllTextAsync(filePath, svgStructure, Encoding.UTF8);
 
@@ -63,7 +63,7 @@ public class DrawRepo(DrawebDbContext context) : IDrawRepo
         {
             return new() { 
                 Message = $"Failed draw creation of non-existent user with ID: {userId}, drawing title: {title}, SVG: {svgStructure}",
-                ErrorType = ErrorType.UserDoesNotExist
+                ErrorType = ErrorType.ResourceDoesNotExist
             };
         }
     }
@@ -80,7 +80,7 @@ public class DrawRepo(DrawebDbContext context) : IDrawRepo
         {
             return new Result<List<DrawingDTO>>{ 
                 Message = $"User not found, with id: {userId}",
-                ErrorType = ErrorType.UserDoesNotExist
+                ErrorType = ErrorType.ResourceDoesNotExist
             };
         }
         else
@@ -112,9 +112,37 @@ public class DrawRepo(DrawebDbContext context) : IDrawRepo
         }
     }
 
-    public async Task<Result<string>> GetSvgDrawing(string fileUrl)
+    public async Task<Result<string>> GetSvgDrawing(int drawingId)
     {
-        throw new NotImplementedException();
+        var drawing = await _context.Draws
+            .FirstOrDefaultAsync(d => d.DrawId == drawingId);
+
+        if(drawing == null)
+        {
+            return new()
+            {
+                Message = $"A non-existent drawing was searched with ID: {drawingId}",
+                ErrorType = ErrorType.ResourceDoesNotExist
+            };
+        }
+
+        string filePath = Path.Combine(_drawingsFolder, drawing.Url);
+        if (!File.Exists(filePath))
+        {
+            return new()
+            {
+                Message = $"A drawing without svg file was searched with ID: {drawingId}",
+                ErrorType = ErrorType.FailedOperationExecution
+            };
+        }
+        string svg = File.ReadAllText(filePath, Encoding.UTF8);
+        
+        return new()
+        {
+            Data = svg,
+            Message = $"The svg file of a drawing was searched, with ID: {drawingId}",
+            IsSuccess = true   
+        };
     }
 
     public async Task<Result<bool>> DeleteDraw(int drawId)
