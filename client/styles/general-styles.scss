@@ -27,6 +27,11 @@ input {
     border: 1px solid $primary-color;
     border-radius: $radius;
     font-size: $normal-text-font-size;
+
+    &[type='color'] {
+        padding: 0;
+        width: 100%;
+    }
 }
 
 input:focus {
@@ -50,20 +55,38 @@ button {
     padding: 8px;
     font-size: $normal-text-font-size;
     cursor: pointer;
-    color: white;
     border: none;
 
-    &:hover {
-        filter: brightness(90%);
+    &.primary-button {
+        background-color: $primary-color;
+        color: white;
+
+        &:hover {
+            filter: brightness(150%);
+        }
     }
-}
 
-.primary-button {
-    background-color: $primary-color;
-}
+    &.secondary-button {
+        background-color: $secondary-color;
+        color: white;
 
-.secondary-button {
-    background-color: $secondary-color;
+        &:hover {
+            filter: brightness(85%);
+        }
+    }
+
+    &.error-button {
+        background-color: $primary-accent-color;
+
+        img {
+            width: 20px;
+            height: 20px;
+        }
+    
+        &:hover {
+            filter: brightness(130%);
+        }
+    }
 }
 
 .link {
@@ -74,18 +97,3 @@ button {
     width: 100%;
 }
 
-.icon-button {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-
-    img {
-        width: 24px;
-        height: 24px;
-    }
-
-    &:hover {
-        filter: brightness(90%);
-    }
-}

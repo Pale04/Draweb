@@ -146,7 +146,6 @@ app.MapPost("/draweb-api/authenticate", async Task<Results<BadRequest<object>, O
             new(ClaimTypes.Role, "Member")
         ];
 
-        Console.WriteLine(configuration["Jwt:ExpirationInMinutes"]!);
         var tokenDescriptor = new SecurityTokenDescriptor()
         {
             Subject = new ClaimsIdentity(claims),

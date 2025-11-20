@@ -1,0 +1,85 @@
+body {
+  margin: 0px;
+  background-color: #8ecae6;
+}
+
+header {
+  background-color: #023047;
+  color: white;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin: 0px;
+  font-size: 30pt;
+}
+
+.draws-list {
+  list-style-type: none;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 20pt;
+  align-items: center;
+  height: max-content;
+  margin: 0px;
+  padding: 20px;
+}
+
+.draw-item, .new-draw-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  border-radius: 10px;
+  padding: 15px 15px;
+  margin: 0pt 10pt;
+}
+.draw-item:hover, .new-draw-button:hover {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+.draw-item .title, .new-draw-button .title {
+  font-size: 14pt;
+  font-weight: bold;
+  margin: 10px 0px 0px 0px;
+}
+.draw-item .description, .new-draw-button .description {
+  font-size: 10pt;
+  margin: 5px 0px 0px 0px;
+}
+
+.draw-item {
+  border: 2pt solid #023047;
+  background-color: #219ebc;
+}
+.draw-item > svg {
+  border-radius: 10px;
+  background-color: white;
+}
+.draw-item .title, .draw-item .description {
+  color: white;
+}
+.draw-item .drawing-item-options-pane {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  height: max-content;
+  width: 100%;
+  gap: 10pt;
+  margin-top: 12pt;
+}
+
+.new-draw-button {
+  border: 2pt solid #fb8500;
+  background-color: #ffb703;
+  height: 70pt;
+  width: 70pt;
+}
+.new-draw-button > img {
+  width: 50pt;
+  height: 50pt;
+}
+
+/*# sourceMappingURL=home-styles.css.map */

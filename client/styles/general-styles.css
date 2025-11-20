@@ -28,6 +28,10 @@ input {
   border-radius: 10px;
   font-size: 14pt;
 }
+input[type=color] {
+  padding: 0;
+  width: 100%;
+}
 
 input:focus {
   outline: none;
@@ -50,19 +54,31 @@ button {
   padding: 8px;
   font-size: 14pt;
   cursor: pointer;
-  color: white;
   border: none;
 }
-button:hover {
-  filter: brightness(90%);
-}
-
-.primary-button {
+button.primary-button {
   background-color: #023047;
+  color: white;
 }
-
-.secondary-button {
+button.primary-button:hover {
+  filter: brightness(150%);
+}
+button.secondary-button {
   background-color: #219ebc;
+  color: white;
+}
+button.secondary-button:hover {
+  filter: brightness(85%);
+}
+button.error-button {
+  background-color: #fb8500;
+}
+button.error-button img {
+  width: 20px;
+  height: 20px;
+}
+button.error-button:hover {
+  filter: brightness(130%);
 }
 
 .link {
@@ -71,21 +87,6 @@ button:hover {
   padding: 8px;
   font-size: 14pt;
   width: 100%;
-}
-
-.icon-button {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  color: white;
-}
-.icon-button img {
-  width: 24px;
-  height: 24px;
-}
-.icon-button:hover {
-  filter: brightness(90%);
 }
 
 /*# sourceMappingURL=general-styles.css.map */

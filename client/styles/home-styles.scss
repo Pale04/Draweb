@@ -1,0 +1,90 @@
+@use "variables" as *;
+
+body {
+    margin: 0px;
+    background-color: $tertiary-color;
+}
+
+header {
+    background-color: $primary-color;
+    color: white;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin: 0px;
+    font-size: 30pt;
+}
+
+.draws-list {
+    list-style-type: none;
+    display: flex;
+    flex-flow: row wrap;
+    gap: 20pt;
+    align-items: center;
+    height: max-content;
+    margin: 0px;
+    padding: 20px;
+}
+
+.draw-item, .new-draw-button {
+    @include flex-center;
+    flex-direction: column;
+    text-align: center;
+    border-radius: $radius;
+    padding: 15px 15px;
+    margin: 0pt 10pt;
+    
+    &:hover {
+        box-shadow: $lite-shadow;
+        cursor: pointer;
+    }
+
+    .title {
+        font-size: $normal-text-font-size;
+        font-weight: bold;
+        margin: 10px 0px 0px 0px;
+    }
+
+    .description {
+        font-size: $low-text-font-size;
+        margin: 5px 0px 0px 0px;
+    }
+}
+
+.draw-item {
+    border: get-colored-thin-border($primary-color);
+    background-color: $secondary-color;
+
+    > svg {
+        border-radius: $radius;
+        background-color: white;
+    }
+
+    .title, .description {
+        color: white;
+    }
+
+    .drawing-item-options-pane {
+        display: flex;
+        flex-direction: row;
+        justify-content: right;
+        height: max-content;
+        width: 100%;
+        gap: 10pt;
+        margin-top: 12pt;
+    }
+}
+
+.new-draw-button {
+    border: get-colored-thin-border($primary-accent-color);
+    background-color: $secondary-accent-color;
+    height: 70pt;
+    width: 70pt;
+
+    > img {
+        width: 50pt;
+        height: 50pt;
+    }
+}
