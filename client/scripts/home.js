@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 deleteIcon.setAttribute('alt', `Delete ${responseBody[i].title}`)
                 const deleteDrawingButton = document.createElement('button')
                 deleteDrawingButton.setAttribute('class', 'error-button')
+                deleteDrawingButton.setAttribute('type', 'button')
                 deleteDrawingButton.addEventListener('click', () => deleteDrawing(responseBody[i].drawingId))
                 deleteDrawingButton.appendChild(deleteIcon)
 
@@ -65,6 +66,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else {
             alert('Something went wrong')
         }
+
     } catch (e) {
         console.log(e);
         alert('Something went wrong')
@@ -137,8 +139,7 @@ async function deleteDrawing(drawingId) {
     }
 }
 
-const newDrawingButton = document.getElementById('new-drawing-button');
-newDrawingButton.addEventListener('click', () => {
+document.getElementById('new-drawing-button').addEventListener('click', () => {
     window.location.assign('canvas.html')
 })
 

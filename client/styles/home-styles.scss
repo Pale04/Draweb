@@ -21,11 +21,11 @@ h1 {
     list-style-type: none;
     display: flex;
     flex-flow: row wrap;
-    gap: 20pt;
+    gap: 15pt;
     align-items: center;
     height: max-content;
     margin: 0px;
-    padding: 20px;
+    padding: 15pt;
 }
 
 .draw-item, .new-draw-button {
@@ -33,8 +33,8 @@ h1 {
     flex-direction: column;
     text-align: center;
     border-radius: $radius;
-    padding: 15px 15px;
-    margin: 0pt 10pt;
+    padding: 15pt 15pt;
+    margin: 0pt 5pt;
     
     &:hover {
         box-shadow: $lite-shadow;
@@ -56,6 +56,7 @@ h1 {
 .draw-item {
     border: get-colored-thin-border($primary-color);
     background-color: $secondary-color;
+    width: min-content;
 
     > svg {
         border-radius: $radius;

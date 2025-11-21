@@ -1,0 +1,104 @@
+body {
+  margin: 0pt;
+  padding: 8pt 16pt 16pt 16pt;
+  background-color: #8ecae6;
+  height: calc(100vh - 24pt);
+  display: flex;
+  flex-direction: column;
+}
+
+form {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: start;
+  height: min-content;
+  color: white;
+}
+form .text-field {
+  margin: 8pt 0pt;
+  min-width: 100pt;
+  max-width: 400pt;
+}
+form button {
+  width: 70pt;
+  height: min-content;
+  margin: 8pt 0pt 0pt 8pt;
+}
+
+.canvas-wrapper {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.canvas-toolbar {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 10px;
+  padding: 16px;
+  background-color: #219ebc;
+  border-radius: 10px;
+  color: white;
+  width: max-content;
+  align-items: center;
+}
+
+.canvas-toolbar-shapes {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+}
+
+.canvas-toolbar-shape-properties {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 10px;
+  padding: 0 0 0 16pt;
+  margin: 0;
+}
+.canvas-toolbar-shape-properties div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0pt 8pt;
+}
+.canvas-toolbar-shape-properties input {
+  flex-grow: 1;
+}
+
+.toolbar-shape-button {
+  width: max-content;
+  height: max-content;
+  border-radius: 10px;
+  background-color: white;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.toolbar-shape-button svg {
+  stroke: black;
+  stroke-width: 3;
+  fill: transparent;
+}
+.toolbar-shape-button.is-active {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  background-color: #ffb703;
+}
+
+.canvas-container {
+  border: 2pt solid black;
+  width: max-content;
+  height: max-content;
+  background-color: white;
+}
+.canvas-container .selected-shape {
+  outline: dashed 4pt #fb8500;
+}
+
+/*# sourceMappingURL=canvas-styles.css.map */

@@ -36,7 +36,8 @@ The following list shows the desired functionalities of the application:
 
 The core functionality of the application is the drawing feature, which includes:
 - Creation of vector shapes (squares, rectangles, circles, lines and different polygons)
-- Changing shape properties (color, border color, border thickness)
+- Changing shape properties (color, size, etc.)
+
 - Uploading images to the canvas
 - Moving, resizing and deleting shapes
 - Managing layers (bring to front, send to back)

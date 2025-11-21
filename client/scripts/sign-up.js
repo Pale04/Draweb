@@ -60,7 +60,7 @@ async function sendLoginForm() {
             headers: {
                 'Content-Type': 'application/json'
             }
-        });
+        })
         const responseCode = response.status
         
         if (responseCode == 201) {

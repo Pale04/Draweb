@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Untitled drawing</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/general-styles.css">
+    <link rel="stylesheet" href="styles/canvas-styles.css">
+    <script src="scripts/canvas.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <form novalidate>
+            <div class="text-field">
+                <input type="text" id="drawing-title" value="Untitled drawing" required>
+                <span class="error" aria-live="polite"></span>
+            </div>
+            <button type="submit" class="primary-button">Save</button>
+        </form>
+    </header>
+    <div class="canvas-wrapper">
+        <div class="canvas-toolbar">
+            <div class ="canvas-toolbar-shapes">
+                <button id="line-shape" type="button" class="toolbar-shape-button">
+                    <svg width="50" height="50" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="10" y1="10" x2="40" y2="40"/>
+                    </svg>
+                </button>
+                <button id="ellipse-shape" type="button" class="toolbar-shape-button">
+                    <svg width="50" height="50" xmlns="http://www.w3.org/2000/svg">
+                        <ellipse rx="15" ry="15" cx="25" cy="25"/>
+                    </svg>
+                </button>
+                <button id="triangle-shape" type="button" class="toolbar-shape-button">
+                    <svg width="50" height="50" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="25,10 40,40 10,40"/>
+                    </svg>
+                </button>
+                <button id="square-shape" type="button" class="toolbar-shape-button">
+                    <svg width="50" height="50" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="10" y="10" height="30" width="30"/>
+                    </svg>
+                </button>
+                <button id="rhomb-shape" type="button" class="toolbar-shape-button">
+                    <svg width="50" height="50" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="25,8 42,25 25,43 8,25"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="canvas-toolbar-shape-properties">
+                <div>
+                    <label for="line-color-picker">Line color:</label>
+                    <input type="color" id="line-color-picker" value="#000000">
+                </div>
+                <div>
+                    <label for="background-color-picker">Background:</label>
+                    <input type="color" id="background-color-picker" value="#ffffff">
+                </div>
+            </div>
+        </div>
+
+        <div class="canvas-container">
+            <svg id="canvas" height="720" width="1280" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+    </div> 
+</body>
+</html>
