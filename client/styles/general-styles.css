@@ -33,6 +33,10 @@ input[type=color] {
   width: 100%;
 }
 
+input[type=file] {
+  display: none;
+}
+
 input:focus {
   outline: none;
   border: 2px solid #023047;
@@ -53,6 +57,7 @@ button {
   border-radius: 10px;
   padding: 8px;
   font-size: 14pt;
+  font-family: "Courier New", Courier, monospace;
   cursor: pointer;
   border: none;
 }
@@ -79,6 +84,34 @@ button.error-button img {
 }
 button.error-button:hover {
   filter: brightness(130%);
+}
+button.icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffb703;
+}
+button.icon-button img {
+  width: 20px;
+  height: 20px;
+}
+button.icon-button:hover {
+  filter: brightness(75%);
+}
+button.upload-button {
+  background-color: #ffb703;
+  color: black;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8pt;
+}
+button.upload-button:hover {
+  filter: brightness(80%);
+}
+button img {
+  width: 20pt;
+  height: 20pt;
 }
 
 .link {

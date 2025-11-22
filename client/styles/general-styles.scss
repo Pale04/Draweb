@@ -34,6 +34,10 @@ input {
     }
 }
 
+input[type='file'] {
+    display: none;
+}
+
 input:focus {
     outline: none;
     border: 2px solid $primary-color;
@@ -54,6 +58,7 @@ button {
     border-radius: $radius;
     padding: 8px;
     font-size: $normal-text-font-size;
+    font-family: $global-font-family;
     cursor: pointer;
     border: none;
 
@@ -86,6 +91,40 @@ button {
         &:hover {
             filter: brightness(130%);
         }
+    }
+
+    &.icon-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $secondary-accent-color;
+
+        img {
+            width: 20px;
+            height: 20px;
+        }
+    
+        &:hover {
+            filter: brightness(75%);
+        }
+    }
+
+    &.upload-button {
+        background-color: $secondary-accent-color;
+        color: black;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8pt;
+
+        &:hover {
+            filter: brightness(80%);
+        }
+    }
+
+    img {
+        width: 20pt;
+        height: 20pt;
     }
 }
 

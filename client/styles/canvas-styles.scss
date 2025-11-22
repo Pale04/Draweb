@@ -77,6 +77,12 @@ form {
     }
 }
 
+.canvas-toolbar-extra {
+    @include responsive-toolbar-section;
+    padding: 0 0 0 16pt;
+    margin: 0;
+}
+
 .toolbar-shape-button {
     width: max-content;
     height: max-content;

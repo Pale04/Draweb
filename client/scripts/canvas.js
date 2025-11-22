@@ -111,12 +111,24 @@ const movingCoordinates = {
     initialClickY: null,
     lastClickX: null,
     lastClickY: null,
+    previousTranslatedX: null,
+    previousTranslatedY: null,
     addInitialCoordinates: (event) => {
         const rect = svgCanvas.getBoundingClientRect();
         const mouseXPosition = event.clientX - rect.left;
         const mouseYPosition = event.clientY - rect.top;
         movingCoordinates.initialClickX = mouseXPosition
         movingCoordinates.initialClickY = mouseYPosition
+    },
+    addPreviousTranslateValues: () => {
+        const transformAttribute = movingCoordinates.drawing.getAttribute('transform')
+        if(transformAttribute && transformAttribute.includes('translate')) {
+            const valuesStartIndex = transformAttribute.indexOf('translate(') + 10
+            const valuesLastIndex = transformAttribute.indexOf(')', valuesStartIndex)
+            const currentValues = transformAttribute.substring(valuesStartIndex, valuesLastIndex).split(' ')
+            movingCoordinates.previousTranslatedX = Number.parseInt(currentValues[0])
+            movingCoordinates.previousTranslatedY = Number.parseInt(currentValues[1])
+        }
     },
     addLastCoordinates: (event) => {
         const rect = svgCanvas.getBoundingClientRect();
@@ -131,6 +143,8 @@ const movingCoordinates = {
         movingCoordinates.lastClickX = null
         movingCoordinates.lastClickY = null
         movingCoordinates.drawing = null
+        movingCoordinates.previousTranslatedX = null
+        movingCoordinates.previousTranslatedY = null
     }
 }
 let isDrawing = false
@@ -157,19 +171,11 @@ svgCanvas.addEventListener('mousemove', (event) => {
     }
 })
 
-svgCanvas.addEventListener('mouseup', (event) => {
+svgCanvas.addEventListener('mouseup', () => {
     if (isDrawing) {
         isDrawing = false
         drawingCoordinates.clearCoordinates()
-
-        const drownShape = svgCanvas.lastChild
-        drownShape.setAttribute('id', shapesCount)
-        shapesCount++
-        drownShape.addEventListener('mousedown', (mousedownEvent) => {
-            isMoving = true
-            movingCoordinates.drawing = drownShape
-            movingCoordinates.addInitialCoordinates(mousedownEvent)
-        })
+        configureNewShape(svgCanvas.lastChild)
     } else if (isMoving) {
         isMoving = false
         movingCoordinates.clearCoordinates()
@@ -234,6 +240,49 @@ function drawShape() {
     } else if (isMoving) {
         const xAxisDiference = movingCoordinates.lastClickX - movingCoordinates.initialClickX
         const yAxisDiference = movingCoordinates.lastClickY - movingCoordinates.initialClickY
-        movingCoordinates.drawing.setAttribute('transform', `translate(${xAxisDiference} ${yAxisDiference})`)
+        movingCoordinates.drawing.setAttribute('transform', `translate(${xAxisDiference + movingCoordinates.previousTranslatedX} ${yAxisDiference + movingCoordinates.previousTranslatedY})`)
     }
 }
+
+function configureNewShape(drownShape) {
+    drownShape.setAttribute('id', shapesCount)
+    shapesCount++
+    drownShape.addEventListener('mousedown', (event) => {
+        isMoving = true
+        movingCoordinates.drawing = drownShape
+        movingCoordinates.addInitialCoordinates(event)
+        movingCoordinates.addPreviousTranslateValues(drownShape)
+    })
+}
+
+
+
+const imageInput = document.getElementById('image-input')
+const uploadImageButton = document.getElementById('upload-image-button')
+
+uploadImageButton.addEventListener('click', () => imageInput.click())
+
+imageInput.addEventListener('change', () => {
+    const selectedImage = imageInput.files[0]
+
+    if (selectedImage) {
+        if (!selectedImage.type.startsWith('image/')){
+            alert('Por favor selecciona un archivo de imagen válido.')
+            return
+        }
+
+        const reader = new FileReader()
+        reader.onload = (event) => {
+            const imageElement = document.createElementNS(svgNS, 'image')
+            imageElement.setAttribute('href', event.target.result);
+            imageElement.setAttribute('height', '720')
+            imageElement.setAttribute('x', '0')
+            imageElement.setAttribute('y', '0')
+            //imageElement.setAttribute('height', '200')
+            svgCanvas.appendChild(imageElement)
+            configureNewShape(imageElement)
+        }
+
+        reader.readAsDataURL(selectedImage);
+    }
+});

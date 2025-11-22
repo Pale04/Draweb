@@ -71,6 +71,14 @@ form button {
   flex-grow: 1;
 }
 
+.canvas-toolbar-extra {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 10px;
+  padding: 0 0 0 16pt;
+  margin: 0;
+}
+
 .toolbar-shape-button {
   width: max-content;
   height: max-content;
@@ -96,9 +104,6 @@ form button {
   width: max-content;
   height: max-content;
   background-color: white;
-}
-.canvas-container .selected-shape {
-  outline: dashed 4pt #fb8500;
 }
 
 /*# sourceMappingURL=canvas-styles.css.map */

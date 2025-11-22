@@ -36,9 +36,9 @@ The following list shows the desired functionalities of the application:
 
 The core functionality of the application is the drawing feature, which includes:
 - Creation of vector shapes (squares, rectangles, circles, lines and different polygons)
-- Changing shape properties (color, size, etc.)
-
+- Changing shape properties (color, background, etc.)
 - Uploading images to the canvas
+
 - Moving, resizing and deleting shapes
 - Managing layers (bring to front, send to back)
 
@@ -100,10 +100,13 @@ The following security practices were implemented:
 ## Testing
 In the [Test Project](/service/DrawebTest/) you can find the tests of the Data Layer. 
 
-# Pending improvements
+# Improvements for future versions
+- [ ] Impelement Undo and Redo functionality
 - [ ] Implement Tests for service layer
 - [ ] Hash passwords before storing them in the database
 - [ ] Store JWT in a cookie
 - [ ] Implement refresh tokens for JWT
 - [ ] Implement error handling middleware in the backend
 - [ ] Script deployment
+- [ ] Modularize CSS and JavaScript client files
+- [ ] Improve performance for first drawing (rezizing)
