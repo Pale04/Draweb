@@ -22,27 +22,27 @@
     <div class="canvas-wrapper">
         <div class="canvas-toolbar">
             <div class ="canvas-toolbar-shapes">
-                <button id="line-shape" type="button" class="toolbar-shape-button">
+                <button id="line-shape" type="button" class="toolbar-shape-button" title="line">
                     <svg width="50" height="50" xmlns="http://www.w3.org/2000/svg">
                         <line x1="10" y1="10" x2="40" y2="40"/>
                     </svg>
                 </button>
-                <button id="ellipse-shape" type="button" class="toolbar-shape-button">
+                <button id="ellipse-shape" type="button" class="toolbar-shape-button" title="ellipse">
                     <svg width="50" height="50" xmlns="http://www.w3.org/2000/svg">
                         <ellipse rx="15" ry="15" cx="25" cy="25"/>
                     </svg>
                 </button>
-                <button id="triangle-shape" type="button" class="toolbar-shape-button">
+                <button id="triangle-shape" type="button" class="toolbar-shape-button" title="triangle">
                     <svg width="50" height="50" xmlns="http://www.w3.org/2000/svg">
                         <polygon points="25,10 40,40 10,40"/>
                     </svg>
                 </button>
-                <button id="square-shape" type="button" class="toolbar-shape-button">
+                <button id="square-shape" type="button" class="toolbar-shape-button" title="square">
                     <svg width="50" height="50" xmlns="http://www.w3.org/2000/svg">
                         <rect x="10" y="10" height="30" width="30"/>
                     </svg>
                 </button>
-                <button id="rhomb-shape" type="button" class="toolbar-shape-button">
+                <button id="rhomb-shape" type="button" class="toolbar-shape-button" title="rhomb">
                     <svg width="50" height="50" xmlns="http://www.w3.org/2000/svg">
                         <polygon points="25,8 42,25 25,43 8,25"/>
                     </svg>
@@ -61,6 +61,15 @@
             </div>
 
             <div class="canvas-toolbar-extra">
+                <button id="erase-button" type="button" class="toolbar-shape-button" title="eraser">
+                    <img src="icons/eraser.png" alt="Erase button">
+                </button>
+                <button class="layer-button" disabled>
+                    <img src="icons/bring-forward.png" alt="Bring shape forward">
+                </button>
+                <button class="layer-button" disabled>
+                    <img src="icons/send-backward.png" alt="Send shape backward">
+                </button>
                 <div>
                     <input type="file" id="image-input" accept="image/*">
                     <button id="upload-image-button" class="upload-button" type="button">

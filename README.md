@@ -11,11 +11,14 @@
 - [Requirements](#requirements)
 - [Design](#design)
     - [Database Design](#database-design)
+    - [API Design](#api-design)
     - [Architecture](#architecture)
 - [Implementation](#implementation)
-    - [Frontend](#frontend)
-    - [Backend](#backend)
+    - [Client](#client)
+    - [Server](#server)
+    - [Security practices](#security-practices)
 - [Testing](#testing)
+- [Improvements for future versions](#improvements-for-future-versions)
 
 ## Introduction
 Draweb is a web application for vector drawing built without CSS Frameworks, JavaScript Libraries or any other Frontend Framework.
@@ -38,8 +41,8 @@ The core functionality of the application is the drawing feature, which includes
 - Creation of vector shapes (squares, rectangles, circles, lines and different polygons)
 - Changing shape properties (color, background, etc.)
 - Uploading images to the canvas
+- Moving and deleting shapes
 
-- Moving, resizing and deleting shapes
 - Managing layers (bring to front, send to back)
 
 After analysing the requirements, we can see that the application strength lies in its drawing capabilities. The backend services are minimal, therefore the backend technology needs to be robust (due to its web-based nature) and a tool that enhances development time speed.
@@ -100,13 +103,4 @@ The following security practices were implemented:
 ## Testing
 In the [Test Project](/service/DrawebTest/) you can find the tests of the Data Layer. 
 
-# Improvements for future versions
-- [ ] Impelement Undo and Redo functionality
-- [ ] Implement Tests for service layer
-- [ ] Hash passwords before storing them in the database
-- [ ] Store JWT in a cookie
-- [ ] Implement refresh tokens for JWT
-- [ ] Implement error handling middleware in the backend
-- [ ] Script deployment
-- [ ] Modularize CSS and JavaScript client files
-- [ ] Improve performance for first drawing (rezizing)
+## Improvements for future versions

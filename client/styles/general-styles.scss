@@ -110,12 +110,13 @@ button {
     }
 
     &.upload-button {
-        background-color: $secondary-accent-color;
+        background-color: $primary-accent-color;
         color: black;
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: 8pt;
+        gap: 10pt;
+        height: 100%;
 
         &:hover {
             filter: brightness(80%);
@@ -125,6 +126,11 @@ button {
     img {
         width: 20pt;
         height: 20pt;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
     }
 }
 

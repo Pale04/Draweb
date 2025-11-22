@@ -152,7 +152,8 @@ let isMoving = false
 let shapesCount = 0
 
 svgCanvas.addEventListener('mousedown', (event) => {
-    if (event.target.id === svgCanvas.id && document.getElementsByClassName('is-active')[0]) {
+    const activeShape = document.getElementsByClassName('is-active')[0]
+    if (event.target.id === svgCanvas.id && activeShape && activeShape.id !== 'erase-button') {
         isDrawing = true
         drawingCoordinates.addStartingCoordinates(event)
         drawingCoordinates.addFinalCoordinates(event)
@@ -244,14 +245,34 @@ function drawShape() {
     }
 }
 
-function configureNewShape(drownShape) {
-    drownShape.setAttribute('id', shapesCount)
+function configureNewShape(drawnShape) {
+    drawnShape.setAttribute('id', shapesCount)
     shapesCount++
-    drownShape.addEventListener('mousedown', (event) => {
-        isMoving = true
-        movingCoordinates.drawing = drownShape
-        movingCoordinates.addInitialCoordinates(event)
-        movingCoordinates.addPreviousTranslateValues(drownShape)
+    drawnShape.addEventListener('mousedown', (event) => {
+        if (document.getElementById('erase-button').classList.contains('is-active')) {
+            svgCanvas.removeChild(drawnShape)
+        } else {
+            isMoving = true
+            movingCoordinates.drawing = drawnShape
+            movingCoordinates.addInitialCoordinates(event)
+            movingCoordinates.addPreviousTranslateValues(drawnShape)
+        }
+    })
+
+    drawnShape.addEventListener('dblclick', (event) => {
+        drawnShape.classList.toggle('selected-shape')
+        const selectedShapes = document.getElementsByClassName('selected-shape')
+        for (let i = 0; i < selectedShapes.length; i++ ) {
+            if (selectedShapes[i].id !== drawnShape.id) {
+                selectedShapes[i].classList.toggle('selected-shape')
+            }
+        }
+
+        const layerButtons = document.getElementsByClassName('layer-button')
+        for(let j = 0; j < layerButtons.length; j++) {
+            layerButtons[j].toggleAttribute('disabled')
+        }
+        document.getElementById('erase-button').toggleAttribute('disabled')
     })
 }
 

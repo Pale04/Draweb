@@ -99,12 +99,13 @@ button.icon-button:hover {
   filter: brightness(75%);
 }
 button.upload-button {
-  background-color: #ffb703;
+  background-color: #fb8500;
   color: black;
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 8pt;
+  gap: 10pt;
+  height: 100%;
 }
 button.upload-button:hover {
   filter: brightness(80%);
@@ -112,6 +113,10 @@ button.upload-button:hover {
 button img {
   width: 20pt;
   height: 20pt;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .link {
